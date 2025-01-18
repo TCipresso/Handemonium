@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     public float moveSpeed = 4500;
     public float maxSpeed = 20;
+    public float downPushForce = 1000;
     public bool grounded;
     public LayerMask whatIsGround;
 
@@ -246,6 +247,8 @@ public class PlayerMovement : MonoBehaviour
         int layer = other.gameObject.layer;
         if (whatIsGround != (whatIsGround | (1 << layer))) return;
 
+        bool foundGround = false; // Flag to check if ground contact is found
+
         //Iterate through every collision in a physics update
         for (int i = 0; i < other.contactCount; i++)
         {
@@ -257,6 +260,27 @@ public class PlayerMovement : MonoBehaviour
                 cancellingGrounded = false;
                 normalVector = normal;
                 CancelInvoke(nameof(StopGrounded));
+                foundGround = true; // Set ground found to true
+            }
+        }
+
+        // If no floor contact, check for wall and apply sliding logic
+        if (!foundGround)
+        {
+            foreach (ContactPoint contact in other.contacts)
+            {
+                if (other.gameObject.layer == LayerMask.NameToLayer("Wall"))
+                {
+                    // Calculate the sliding vector which is the player's current forward direction projected onto the plane defined by the wall's normal
+                    Vector3 slidingDirection = Vector3.ProjectOnPlane(orientation.forward, contact.normal).normalized;
+
+                    // Check if the sliding direction is significantly small which might indicate a head-on collision with the wall
+                    if (slidingDirection.sqrMagnitude > 0.1f)  // Use a small threshold to avoid jitter or division by very small magnitude
+                    {
+                        // Apply a force along the sliding direction
+                        rb.AddForce(slidingDirection * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+                    }
+                }
             }
         }
 
@@ -268,6 +292,7 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(StopGrounded), Time.deltaTime * delay);
         }
     }
+
 
     private void StopGrounded()
     {
