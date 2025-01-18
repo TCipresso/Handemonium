@@ -2571,10 +2571,8 @@ GameObject:
   - component: {fileID: 1398197331}
   - component: {fileID: 1398197330}
   - component: {fileID: 1398197329}
-  - component: {fileID: 1398197328}
   - component: {fileID: 1398197327}
   - component: {fileID: 1398197326}
-  - component: {fileID: 1398197325}
   - component: {fileID: 1398197324}
   - component: {fileID: 1398197323}
   - component: {fileID: 1398197322}
@@ -2601,13 +2599,14 @@ MonoBehaviour:
   orientation: {fileID: 1634140803}
   moveSpeed: 4500
   maxSpeed: 20
+  downPushForce: 1000
   grounded: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
   counterMovement: 0.175
   maxSlopeAngle: 35
-  slideForce: 400
+  slideForce: 1000
   slideCounterMovement: 0.2
   jumpForce: 550
 --- !u!54 &1398197323
@@ -2658,26 +2657,6 @@ MonoBehaviour:
   tiltAngle: 3
   tiltSmooth: 0.01
   jumpForce: 300
---- !u!114 &1398197325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1398197321}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 568800cf4e017864f9f4dd6eafcfbfc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1012693248}
-  walkSpeed: 6
-  runSpeed: 12
-  crouchedWalkSpeed: 3
-  lookSpeed: 2
-  lookXLimit: 45
-  tiltAngle: 3
-  tiltSmooth: 0.01
 --- !u!82 &1398197326
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2797,32 +2776,6 @@ MonoBehaviour:
     m_FrequencyGain: 0
     m_Duration: 0
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
---- !u!143 &1398197328
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1398197321}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Height: 1.54
-  m_Radius: 0.5000001
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1398197329
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2830,7 +2783,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398197321}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: eba30b5fef4308242bd87ac7fb99508c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

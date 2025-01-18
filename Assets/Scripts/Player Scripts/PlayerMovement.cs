@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     public float moveSpeed = 4500;
     public float maxSpeed = 20;
-    public float downPushForce = 1000;
+
     public bool grounded;
     public LayerMask whatIsGround;
 
