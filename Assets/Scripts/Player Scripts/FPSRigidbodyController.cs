@@ -17,8 +17,8 @@ public class FPSRigidbodyController : MonoBehaviour
     private bool isGrounded = true;
     private bool isCrouching = false;
     private float rotationX = 0;
-    private float targetTilt = 0f;
-    private float currentTilt = 0f;
+    // private float targetTilt = 0f;  // Target tilt based on input
+    // private float currentTilt = 0f;  // Current tilt of the camera
     private bool jumpRequested = false;  // To capture jump requests
 
     void Start()
@@ -27,6 +27,7 @@ public class FPSRigidbodyController : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        QualitySettings.vSyncCount = 1;  // Enable VSync
     }
 
     void Update()
@@ -34,13 +35,7 @@ public class FPSRigidbodyController : MonoBehaviour
         // Handle Mouse Rotation
         rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, currentTilt);
-
-        // Camera Tilt Logic
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        targetTilt = -horizontalInput * tiltAngle;
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, tiltSmooth);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, currentTilt);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);  // No tilt applied
 
         // Player Horizontal Rotation
         transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
@@ -72,7 +67,7 @@ public class FPSRigidbodyController : MonoBehaviour
             moveDirection.Normalize();
         }
 
-        float currentSpeed = isRunning ? runSpeed : walkSpeed;
+        float currentSpeed = isRunning ? runSpeed : currentWalkSpeed;
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
         // Apply Jump if Requested
