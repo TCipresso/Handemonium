@@ -17,8 +17,8 @@ public class FPSRigidbodyController : MonoBehaviour
     private bool isGrounded = true;
     private bool isCrouching = false;
     private float rotationX = 0;
-    // private float targetTilt = 0f;  // Target tilt based on input
-    // private float currentTilt = 0f;  // Current tilt of the camera
+    private Vector3 moveInput = Vector3.zero;
+    private bool isRunning = false;
     private bool jumpRequested = false;  // To capture jump requests
 
     void Start()
@@ -35,7 +35,7 @@ public class FPSRigidbodyController : MonoBehaviour
         // Handle Mouse Rotation
         rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);  // No tilt applied
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
 
         // Player Horizontal Rotation
         transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
@@ -46,6 +46,10 @@ public class FPSRigidbodyController : MonoBehaviour
             isCrouching = !isCrouching;
         }
 
+        // Capture Movement Input
+        moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        isRunning = Input.GetKey(KeyCode.LeftShift);
+
         // Capture Jump Input
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
@@ -55,19 +59,20 @@ public class FPSRigidbodyController : MonoBehaviour
 
     void FixedUpdate()
     {
+        PerformMovement();
+    }
+
+    private void PerformMovement()
+    {
         // Handle Movement
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float currentWalkSpeed = isCrouching ? crouchedWalkSpeed : walkSpeed;
-        Vector3 moveDirection = forward * Input.GetAxisRaw("Vertical") + right * Input.GetAxisRaw("Horizontal");
+        Vector3 moveDirection = forward * moveInput.z + right * moveInput.x;
 
         if (moveDirection.magnitude > 1)
-        {
             moveDirection.Normalize();
-        }
 
-        float currentSpeed = isRunning ? runSpeed : currentWalkSpeed;
+        float currentSpeed = isRunning ? runSpeed : (isCrouching ? crouchedWalkSpeed : walkSpeed);
         rb.MovePosition(rb.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
 
         // Apply Jump if Requested
