@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaca2f8fa4a56147a772bc6014a28e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingForce: 250
+  shootingForce: 100
   lifetime: 5
 --- !u!54 &2091681353961587808
 Rigidbody:
