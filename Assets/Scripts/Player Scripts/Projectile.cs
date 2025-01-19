@@ -20,13 +20,12 @@ public class Projectile : MonoBehaviour
         }
         else if (other.CompareTag("Enemy"))
         {
-            // Add damage logic here
             Debug.Log("Enemy Hit");
             //Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject); // Destroy the projectile if it hits anything else
+            Destroy(gameObject);
         }
     }
 }
