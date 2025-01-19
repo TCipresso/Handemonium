@@ -14,18 +14,31 @@ public class Basic_Soldier : Enemy
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        // Automatically find and assign the player as the target
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            target = player.transform;
+        }
+        else
+        {
+            Debug.LogError("Player object not found. Please ensure the player is tagged correctly.");
+        }
     }
 
     void Update()
     {
-        // Always move towards the player
-        agent.SetDestination(target.position);
-
-        // Check distance to potentially shoot
-        float distance = Vector3.Distance(target.position, transform.position);
-        if (distance <= shootingRange && Time.time >= nextTimeToShoot)
+        if (target != null)
         {
-            ShootAtPlayer();
+            // Always move towards the player
+            agent.SetDestination(target.position);
+
+            // Check distance to potentially shoot
+            float distance = Vector3.Distance(target.position, transform.position);
+            if (distance <= shootingRange && Time.time >= nextTimeToShoot)
+            {
+                ShootAtPlayer();
+            }
         }
     }
 
