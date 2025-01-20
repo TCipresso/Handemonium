@@ -7,17 +7,28 @@ public class Weapon : MonoBehaviour
     public LineRenderer lineRenderer;
     public float fireRate = 10f;
     public float damage = 25f;
+    public Animator animator; // Add an Animator reference
 
     private float nextTimeToFire = 0f;
 
     void Update()
+{
+    // Check if the fire button is pressed or held down
+    if (Input.GetButton("Fire1"))
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             FireHitscan();
+            animator.SetBool("IsShoot", true); // Ensure we are triggering shoot animation
         }
     }
+    else
+    {
+        animator.SetBool("IsShoot", false); // Immediately stop the shooting animation when not pressing
+    }
+}
+
 
     void FireHitscan()
     {

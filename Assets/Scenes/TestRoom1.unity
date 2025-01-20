@@ -16113,6 +16113,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 2879685924459095850}
   fireRate: 3
   damage: 25
+  animator: {fileID: 8605710289673270213}
 --- !u!1 &6767987099309665103
 GameObject:
   m_ObjectHideFlags: 0
