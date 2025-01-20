@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
     public Animator animator;
     public AudioClip shootingSound;
     public AudioSource audioSource; // Publicly referenced AudioSource for playing shooting sounds
+    public GameObject hitEffectPrefab;
 
     private float nextTimeToFire = 0f;
 
@@ -37,18 +38,27 @@ public class Weapon : MonoBehaviour
         {
             PlayShootingSound();
 
+            // Check if the hit object is NOT an enemy, then show hit effect
+            if (!hit.transform.CompareTag("Enemy"))
+            {
+                hitEffectPrefab.transform.position = hit.point;
+                hitEffectPrefab.transform.rotation = Quaternion.LookRotation(hit.normal);
+                hitEffectPrefab.SetActive(false); // Reset any ongoing effect
+                hitEffectPrefab.SetActive(true);  // Re-enable to play effect again
+            }
+
             if (hit.transform.CompareTag("Enemy"))
             {
                 Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(damage, hit.point);
                     Debug.Log("Damage to enemy: " + damage);
                 }
             }
         }
-        
     }
+
 
     void PlayShootingSound()
     {
