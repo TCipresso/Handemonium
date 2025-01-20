@@ -7,35 +7,35 @@ public class Weapon : MonoBehaviour
     public LineRenderer lineRenderer;
     public float fireRate = 10f;
     public float damage = 25f;
-    public Animator animator; // Add an Animator reference
+    public Animator animator;
+    public AudioClip shootingSound;
+    public AudioSource audioSource; // Publicly referenced AudioSource for playing shooting sounds
 
     private float nextTimeToFire = 0f;
 
     void Update()
-{
-    // Check if the fire button is pressed or held down
-    if (Input.GetButton("Fire1"))
     {
-        if (Time.time >= nextTimeToFire)
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
+            animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
             nextTimeToFire = Time.time + 1f / fireRate;
             FireHitscan();
-            animator.SetBool("IsShoot", true); // Ensure we are triggering shoot animation
+            
         }
-    }
-    else
-    {
-        animator.SetBool("IsShoot", false); // Immediately stop the shooting animation when not pressing
-    }
-}
+        if (Input.GetButtonUp("Fire1"))
+        {
+            // Immediately reset the IsShoot to false when the button is released
+            animator.SetBool("IsShoot", false);
+        }
 
+    }
 
     void FireHitscan()
     {
         RaycastHit hit;
         if (Physics.Raycast(shootingPoint.position, shootingPoint.forward, out hit, range))
         {
-            StartCoroutine(ShowBulletTrail(hit.point));
+            PlayShootingSound();
 
             if (hit.transform.CompareTag("Enemy"))
             {
@@ -47,20 +47,16 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
-        else
+        
+    }
+
+    void PlayShootingSound()
+    {
+        if (shootingSound != null && audioSource != null)
         {
-            StartCoroutine(ShowBulletTrail(shootingPoint.position + shootingPoint.forward * range));
+            audioSource.PlayOneShot(shootingSound); // Play the shooting sound once
         }
     }
 
-    System.Collections.IEnumerator ShowBulletTrail(Vector3 hitPoint)
-    {
-        lineRenderer.SetPosition(0, shootingPoint.position);
-        lineRenderer.SetPosition(1, hitPoint);
-        lineRenderer.enabled = true;
-
-        yield return new WaitForSeconds(0.1f);
-
-        lineRenderer.enabled = false;
-    }
+  
 }

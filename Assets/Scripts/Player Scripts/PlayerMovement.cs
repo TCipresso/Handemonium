@@ -1,5 +1,3 @@
-// Some stupid rigidbody based movement by Dani
-
 using System;
 using UnityEngine;
 
@@ -124,6 +122,12 @@ public class PlayerMovement : MonoBehaviour
 
             // Set the IsMove parameter to true when moving
             animator.SetBool("IsMove", true);
+
+            // Play walking audio if grounded
+            if (grounded)
+            {
+                PlayerAudio.Instance.PlayWalkAudio();
+            }
         }
         else
         {
@@ -141,20 +145,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
-
     private void Jump()
     {
         if (grounded && readyToJump)
         {
             readyToJump = false;
 
-            //Add jump forces
+            // Add jump forces
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
             rb.AddForce(normalVector * jumpForce * 0.5f);
 
-            //If jumping while falling, reset y velocity.
+            // Play jump audio
+            PlayerAudio.Instance.PlayJumpAudio();
+
+            // If jumping while falling, reset y velocity.
             Vector3 vel = rb.velocity;
             if (rb.velocity.y < 0.5f)
                 rb.velocity = new Vector3(vel.x, 0, vel.z);
@@ -164,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
+
 
     private void ResetJump()
     {
