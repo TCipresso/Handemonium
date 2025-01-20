@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     //Assingables
     public Transform playerCam;
     public Transform orientation;
+    public Animator animator;
 
     //Other
     private Rigidbody rb;
@@ -113,25 +114,33 @@ public class PlayerMovement : MonoBehaviour
         // Calculate movement direction
         Vector3 moveDirection = orientation.forward * y + orientation.right * x;
 
-        if (moveDirection.magnitude > 0)  // Check if there is input
+        // Check if there is any movement input
+        if (moveDirection.magnitude > 0)
         {
             moveDirection.Normalize();  // Normalize to keep consistent speed in all directions
 
             // Apply instant movement to reach max speed immediately
             rb.velocity = new Vector3(moveDirection.x * maxSpeed, rb.velocity.y, moveDirection.z * maxSpeed);
+
+            // Set the IsMove parameter to true when moving
+            animator.SetBool("IsMove", true);
         }
         else
         {
             // Rapid deceleration when there is no input
             rb.velocity = new Vector3(rb.velocity.x * 0.5f, rb.velocity.y, rb.velocity.z * 0.5f);
+
+            // Set the IsMove parameter to false when not moving
+            animator.SetBool("IsMove", false);
         }
 
-        // If holding jump && ready to jump, then jump
+        // Handle jumping logic
         if (readyToJump && jumping)
         {
             Jump();
         }
     }
+
 
 
 

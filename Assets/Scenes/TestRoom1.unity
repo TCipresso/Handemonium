@@ -16084,6 +16084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCam: {fileID: 7683347784014152395}
   orientation: {fileID: 4135282792823725885}
+  animator: {fileID: 8605710289673270213}
   moveSpeed: 4500
   maxSpeed: 20
   grounded: 0
@@ -16291,7 +16292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19, y: -70}
+  m_AnchoredPosition: {x: -11, y: -77}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!54 &7724984039238358336
@@ -16434,7 +16435,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5873351104325426937}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b4d4c2750b4afac41b6e28228d1ea9dd, type: 2}
   m_CullingMode: 0
