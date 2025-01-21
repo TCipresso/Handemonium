@@ -58,9 +58,9 @@ public class PowerUpManager : MonoBehaviour
     }
 
     // Temporary state change methods
-    public void Zoom(float newSpeed, float duration)
+    public void Zoom(float newSpeed, float newFireRate, float duration)
     {
-        StartCoroutine(ChangeSpeedTemporarily(newSpeed, duration));
+        StartCoroutine(ChangeSpeedAndFireRateTemporarily(newSpeed, newFireRate, duration));
     }
 
     public void Power(float duration)
@@ -82,13 +82,19 @@ public class PowerUpManager : MonoBehaviour
     }
 
 
-    private IEnumerator ChangeSpeedTemporarily(float newSpeed, float duration)
+    private IEnumerator ChangeSpeedAndFireRateTemporarily(float newSpeed, float newFireRate, float duration)
     {
         float originalSpeed = PlayerMovement.Instance.maxSpeed;
+        float originalFireRate = Weapon.Instance.fireRate;
         PlayerMovement.Instance.maxSpeed = newSpeed;
+        Weapon.Instance.fireRate = newFireRate;
+
         yield return new WaitForSeconds(duration);
+
         PlayerMovement.Instance.maxSpeed = originalSpeed;
+        Weapon.Instance.fireRate = originalFireRate;
     }
+
 
     private IEnumerator TemporaryStateChange(PowerUpState newState, float duration)
     {

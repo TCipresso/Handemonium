@@ -9,7 +9,7 @@ public class SpeedBoost : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Pick up found");
-            PowerUpManager.Instance.Zoom(30, 10);
+            PowerUpManager.Instance.Zoom(30, 10000, 10);
             gameObject.SetActive(false);
         }
     }
