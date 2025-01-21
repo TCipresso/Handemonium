@@ -3,97 +3,95 @@ using System.Collections;
 
 public class Charge : MonoBehaviour
 {
-    public float chargeRange = 10f;   // Distance to check for enemies
-    public float chargeSpeed = 25f;   // Speed of the charge movement
-    public float stopDistance = 1.5f; // Distance to stop before colliding
-    public float chargeCooldown = 2f; // Cooldown before another charge can occur
-    public float damage = 50f;        // Damage dealt when charging
-    public LayerMask enemyLayer;      // Layer for enemies
+    public Rigidbody rb;                  // Reference to the player's Rigidbody
+    public Transform orientation;         // Reference to the player's orientation
+    public float dashSpeed = 10f;         // How fast the dash moves
+    public float dashDistance = 10f;      // How far the dash goes
+    public float dashCooldown = 1.5f;     // Cooldown duration between dashes
+    public LayerMask obstacleLayers;      // Layers that represent obstacles
 
-    private Rigidbody rb;
-    private bool isCharging = false;
-    private Transform targetEnemy;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    private bool isDashing;               // To check if currently dashing
+    private bool canDash = true;          // To check if dash is available
+    private Vector3 dashDirection;        // Direction of the dash
+    private float dashTime;               // Time it takes to complete the dash
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !isCharging)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isDashing)
         {
-            TryCharge();
+            StartDash();
         }
     }
 
-    void TryCharge()
+    private void StartDash()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, chargeRange);
-        Transform closestEnemy = null;
-        float closestDistance = float.MaxValue;
-
-        foreach (var hitCollider in hitColliders)
+        canDash = false;
+        isDashing = true;
+        Vector3 startPosition = transform.position;
+        dashDirection = orientation.forward * Input.GetAxisRaw("Vertical") + orientation.right * Input.GetAxisRaw("Horizontal");
+        if (dashDirection != Vector3.zero)
         {
-            if (hitCollider.CompareTag("Enemy"))
-            {
-                float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestEnemy = hitCollider.transform;
-                }
-            }
-        }
-
-        if (closestEnemy != null)
-        {
-            targetEnemy = closestEnemy;
-            StartCoroutine(ChargeToEnemy());
+            dashDirection.Normalize(); // Normalize to ensure consistent dash direction
         }
         else
         {
-            Debug.Log("No enemy detected within range.");
+            dashDirection = orientation.forward; // Default to forward if no input
         }
+
+        dashTime = dashDistance / dashSpeed; // Calculate how long the dash should take based on distance and speed
+        float actualDashDistance = CalculateDashDistance(startPosition, dashDirection, dashDistance);
+        StartCoroutine(PerformDash(startPosition, dashDirection, actualDashDistance));
     }
 
-    IEnumerator ChargeToEnemy()
+    private float CalculateDashDistance(Vector3 startPosition, Vector3 direction, float maxDistance)
     {
-        isCharging = true;
-        Debug.Log("Charging towards: " + targetEnemy.name);
-
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = targetEnemy.position;
-
-        while (Vector3.Distance(transform.position, targetPosition) > stopDistance)
+        RaycastHit hit;
+        if (Physics.Raycast(startPosition, direction, out hit, maxDistance, obstacleLayers))
         {
-            Vector3 direction = (targetPosition - transform.position).normalized;
-            rb.MovePosition(transform.position + direction * chargeSpeed * Time.deltaTime);
+            return hit.distance - 0.01f; // Stop slightly before hitting the object
+        }
+        return maxDistance; // No obstacle, return the full dash distance
+    }
+
+    private IEnumerator PerformDash(Vector3 startPosition, Vector3 direction, float distance)
+    {
+        float elapsed = 0;
+        Vector3 lastSafePosition = startPosition; // Track the last known safe position
+
+        while (elapsed < dashTime)
+        {
+            Vector3 nextPosition = startPosition + direction * dashSpeed * elapsed;
+            if (!IsPositionSafe(nextPosition, direction))
+            {
+                rb.MovePosition(lastSafePosition); // Move to the last safe position instead of the next position
+                break; // Exit the loop as we hit an unsafe position
+            }
+            lastSafePosition = nextPosition;
+            rb.MovePosition(nextPosition);
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        DealChargeDamage();
-        yield return new WaitForSeconds(chargeCooldown);
-        isCharging = false;
+        rb.MovePosition(startPosition + direction * distance); // Ensure character ends exactly at the adjusted dash distance
+        isDashing = false;
+        StartCoroutine(DashCooldown());
     }
 
-    void DealChargeDamage()
+    private bool IsPositionSafe(Vector3 position, Vector3 direction)
     {
-        if (targetEnemy != null)
+        float checkDistance = 0.1f; // Small forward check to prevent clipping
+        RaycastHit hit;
+        if (Physics.Raycast(position, direction, out hit, checkDistance, obstacleLayers))
         {
-            Enemy enemyScript = targetEnemy.GetComponent<Enemy>();
-            if (enemyScript != null)
-            {
-                enemyScript.TakeDamage(damage, targetEnemy.position);
-                Debug.Log("Charged and damaged enemy for " + damage);
-            }
+            return false; // Not safe if we hit something this close
         }
+        return true;
     }
 
-    void OnDrawGizmos()
+
+    private IEnumerator DashCooldown()
     {
-        // Visualize the charge detection radius
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, chargeRange);
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 }

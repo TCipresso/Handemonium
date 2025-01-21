@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3357356399422300828}
   - component: {fileID: 6580055132679410123}
   - component: {fileID: 4800189913264999942}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Basic_Soldier
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -139,6 +139,7 @@ MonoBehaviour:
   health: 100
   attackPower: 2
   speed: 3.5
+  hitEffectPrefab: {fileID: 0}
   target: {fileID: 0}
   shootingRange: 30
   projectilePrefab: {fileID: 2106159488461948229, guid: 9ce4b2d4c8a4a464fa70c130ed600733,
@@ -203,7 +204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4316335353280114598}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

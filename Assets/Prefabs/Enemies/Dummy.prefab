@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2258641786402528717}
   - component: {fileID: 4246097093782304702}
   - component: {fileID: 128070267936392442}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dummy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -136,3 +136,4 @@ MonoBehaviour:
   health: 999999
   attackPower: 0
   speed: 0
+  hitEffectPrefab: {fileID: 0}

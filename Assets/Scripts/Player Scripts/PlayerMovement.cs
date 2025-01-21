@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform playerCam;
     public Transform orientation;
     public Animator animator;
+    public bool isCharging = false;
 
     //Other
     private Rigidbody rb;
@@ -47,8 +48,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
 
+    //Singleton
+    public static PlayerMovement Instance { get; private set; }
+
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Optional if you want it to persist between scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Ensure there's only one instance
+        }
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -62,7 +76,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
+        if (!isCharging)
+        {
+            Movement();
+        }
+        else
+        {
+            rb.velocity = Vector3.zero; // Stop movement while charging
+        }
     }
 
     private void Update()
@@ -306,6 +327,12 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(StopGrounded), Time.deltaTime * delay);
         }
     }
+
+    public Vector3 GetMovementDirection()
+    {
+        return orientation.forward * y + orientation.right * x;
+    }
+
 
 
     private void StopGrounded()
