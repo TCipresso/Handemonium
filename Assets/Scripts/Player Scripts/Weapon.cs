@@ -11,7 +11,7 @@ public class Weapon : MonoBehaviour
     public float damage = 25f;
     public Animator animator;
     public AudioClip shootingSound;
-    public AudioSource audioSource; // Publicly referenced AudioSource for playing shooting sounds
+    public AudioSource audioSource; // AudioSource for playing shooting sounds
     public GameObject hitEffectPrefab;
 
     private float nextTimeToFire = 0f;
@@ -33,14 +33,19 @@ public class Weapon : MonoBehaviour
     {
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
-            animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
             nextTimeToFire = Time.time + 1f / fireRate;
-            FireHitscan();
+            animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
         }
-        if (Input.GetButtonUp("Fire1"))
+        else
         {
             animator.SetBool("IsShoot", false);
         }
+    }
+
+    // This method should be called via an Animation Event
+    public void FireWeapon()
+    {
+        FireHitscan();
     }
 
     void FireHitscan()
