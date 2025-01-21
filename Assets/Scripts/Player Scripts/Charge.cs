@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Charge : MonoBehaviour
 {
+    public static Charge Instance { get; private set; }  // Singleton instance
+
     public Rigidbody rb;                  // Reference to the player's Rigidbody
     public Transform orientation;         // Reference to the player's orientation
     public float dashSpeed = 10f;         // How fast the dash moves
@@ -14,6 +16,21 @@ public class Charge : MonoBehaviour
     private bool canDash = true;          // To check if dash is available
     private Vector3 dashDirection;        // Direction of the dash
     private float dashTime;               // Time it takes to complete the dash
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);  // Optionally make the object persistent across scenes
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);  // Ensure that there is only one instance
+        }
+
+        dashCooldown = 1.5f;
+    }
 
     void Update()
     {
@@ -56,15 +73,15 @@ public class Charge : MonoBehaviour
     private IEnumerator PerformDash(Vector3 startPosition, Vector3 direction, float distance)
     {
         float elapsed = 0;
-        Vector3 lastSafePosition = startPosition; // Track the last known safe position
+        Vector3 lastSafePosition = startPosition;
 
         while (elapsed < dashTime)
         {
             Vector3 nextPosition = startPosition + direction * dashSpeed * elapsed;
             if (!IsPositionSafe(nextPosition, direction))
             {
-                rb.MovePosition(lastSafePosition); // Move to the last safe position instead of the next position
-                break; // Exit the loop as we hit an unsafe position
+                rb.MovePosition(lastSafePosition);
+                break;
             }
             lastSafePosition = nextPosition;
             rb.MovePosition(nextPosition);
@@ -72,22 +89,21 @@ public class Charge : MonoBehaviour
             yield return null;
         }
 
-        rb.MovePosition(startPosition + direction * distance); // Ensure character ends exactly at the adjusted dash distance
+        rb.MovePosition(startPosition + direction * distance);
         isDashing = false;
         StartCoroutine(DashCooldown());
     }
 
     private bool IsPositionSafe(Vector3 position, Vector3 direction)
     {
-        float checkDistance = 0.1f; // Small forward check to prevent clipping
+        float checkDistance = 0.1f;
         RaycastHit hit;
         if (Physics.Raycast(position, direction, out hit, checkDistance, obstacleLayers))
         {
-            return false; // Not safe if we hit something this close
+            return false;
         }
         return true;
     }
-
 
     private IEnumerator DashCooldown()
     {

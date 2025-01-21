@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public static Weapon Instance { get; private set; } // Singleton instance
+
     public Transform shootingPoint;
     public float range = 100f;
     public LineRenderer lineRenderer;
@@ -14,6 +16,19 @@ public class Weapon : MonoBehaviour
 
     private float nextTimeToFire = 0f;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Optionally make the object persistent across scenes
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject); // Ensure that there is only one instance
+        }
+    }
+
     void Update()
     {
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
@@ -21,14 +36,11 @@ public class Weapon : MonoBehaviour
             animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
             nextTimeToFire = Time.time + 1f / fireRate;
             FireHitscan();
-            
         }
         if (Input.GetButtonUp("Fire1"))
         {
-            // Immediately reset the IsShoot to false when the button is released
             animator.SetBool("IsShoot", false);
         }
-
     }
 
     void FireHitscan()
@@ -38,13 +50,9 @@ public class Weapon : MonoBehaviour
         {
             PlayShootingSound();
 
-            // Check if the hit object is NOT an enemy, then show hit effect
             if (!hit.transform.CompareTag("Enemy"))
             {
-                hitEffectPrefab.transform.position = hit.point;
-                hitEffectPrefab.transform.rotation = Quaternion.LookRotation(hit.normal);
-                hitEffectPrefab.SetActive(false); // Reset any ongoing effect
-                hitEffectPrefab.SetActive(true);  // Re-enable to play effect again
+                ShowHitEffect(hit);
             }
 
             if (hit.transform.CompareTag("Enemy"))
@@ -59,14 +67,22 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    void ShowHitEffect(RaycastHit hit)
+    {
+        if (hitEffectPrefab != null)
+        {
+            hitEffectPrefab.transform.position = hit.point;
+            hitEffectPrefab.transform.rotation = Quaternion.LookRotation(hit.normal);
+            hitEffectPrefab.SetActive(false);
+            hitEffectPrefab.SetActive(true);
+        }
+    }
 
     void PlayShootingSound()
     {
         if (shootingSound != null && audioSource != null)
         {
-            audioSource.PlayOneShot(shootingSound); // Play the shooting sound once
+            audioSource.PlayOneShot(shootingSound);
         }
     }
-
-  
 }

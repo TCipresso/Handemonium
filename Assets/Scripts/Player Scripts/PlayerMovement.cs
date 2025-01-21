@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody>();
+        moveSpeed = 4500;
+        maxSpeed = 20;
     }
 
     void Start()
