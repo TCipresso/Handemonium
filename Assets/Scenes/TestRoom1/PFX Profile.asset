@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: 240
   resolutionPreset:
     m_OverrideState: 1
-    m_Value: 240
+    m_Value: 480
   preserveAspectRatio:
     m_OverrideState: 0
     m_Value: 0
