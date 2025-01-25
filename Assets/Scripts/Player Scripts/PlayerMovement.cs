@@ -1,5 +1,3 @@
-// Some stupid rigidbody based movement by Dani
-
 using System;
 using UnityEngine;
 
@@ -9,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     //Assingables
     public Transform playerCam;
     public Transform orientation;
+    public Animator animator;
+    public bool isCharging = false;
 
     //Other
     private Rigidbody rb;
@@ -48,8 +48,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
 
+    //Singleton
+    public static PlayerMovement Instance { get; private set; }
+
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Optional if you want it to persist between scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Ensure there's only one instance
+        }
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -63,7 +76,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
+        if (!isCharging)
+        {
+            Movement();
+        }
+        else
+        {
+            rb.velocity = Vector3.zero; // Stop movement while charging
+        }
     }
 
     private void Update()
@@ -113,27 +133,38 @@ public class PlayerMovement : MonoBehaviour
         // Calculate movement direction
         Vector3 moveDirection = orientation.forward * y + orientation.right * x;
 
-        if (moveDirection.magnitude > 0)  // Check if there is input
+        // Check if there is any movement input
+        if (moveDirection.magnitude > 0)
         {
             moveDirection.Normalize();  // Normalize to keep consistent speed in all directions
 
             // Apply instant movement to reach max speed immediately
             rb.velocity = new Vector3(moveDirection.x * maxSpeed, rb.velocity.y, moveDirection.z * maxSpeed);
+
+            // Set the IsMove parameter to true when moving
+            animator.SetBool("IsMove", true);
+
+            // Play walking audio if grounded
+            if (grounded)
+            {
+                PlayerAudio.Instance.PlayWalkAudio();
+            }
         }
         else
         {
             // Rapid deceleration when there is no input
             rb.velocity = new Vector3(rb.velocity.x * 0.5f, rb.velocity.y, rb.velocity.z * 0.5f);
+
+            // Set the IsMove parameter to false when not moving
+            animator.SetBool("IsMove", false);
         }
 
-        // If holding jump && ready to jump, then jump
+        // Handle jumping logic
         if (readyToJump && jumping)
         {
             Jump();
         }
     }
-
-
 
     private void Jump()
     {
@@ -141,11 +172,14 @@ public class PlayerMovement : MonoBehaviour
         {
             readyToJump = false;
 
-            //Add jump forces
+            // Add jump forces
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
             rb.AddForce(normalVector * jumpForce * 0.5f);
 
-            //If jumping while falling, reset y velocity.
+            // Play jump audio
+            PlayerAudio.Instance.PlayJumpAudio();
+
+            // If jumping while falling, reset y velocity.
             Vector3 vel = rb.velocity;
             if (rb.velocity.y < 0.5f)
                 rb.velocity = new Vector3(vel.x, 0, vel.z);
@@ -155,6 +189,7 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
+
 
     private void ResetJump()
     {
@@ -292,6 +327,12 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(StopGrounded), Time.deltaTime * delay);
         }
     }
+
+    public Vector3 GetMovementDirection()
+    {
+        return orientation.forward * y + orientation.right * x;
+    }
+
 
 
     private void StopGrounded()
