@@ -4237,7 +4237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &540591228
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24484,13 +24484,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3413521161247824647}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.006513796, y: -0.014728798, z: -0.00009595284, w: 0.9998703}
-  m_LocalPosition: {x: 0.402, y: -0.09899998, z: 0.5419995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7683347784014152395}
-  m_LocalEulerAnglesHint: {x: -0.747, y: -1.688, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5260502346652686530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24627,7 +24627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &5916432764053633995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24743,7 +24743,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef853e6950ff55747a77ccf28e062d07, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e060e763531a77f4c95f5d1bf898f9d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
