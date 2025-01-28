@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4e89457261c616b488a0be8e02af4bae
+guid: 1ed37ac8fc40b9b43a8410e75cbee7e7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DualFire_0
+      name: DualPew_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36fbbc9c15a8e0d4fbab1f3bf48a4679
-      internalID: 893760802
+      spriteID: 949f32f58332c6f47959476ffc629fd8
+      internalID: -337702807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DualFire_1
+      name: DualPew_1
       rect:
         serializedVersion: 2
         x: 480
@@ -145,8 +145,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac6104e5bfe93874b878d6200ddc9b44
-      internalID: -389405882
+      spriteID: 4765cfd0e54dc51419fc30ecb2e26226
+      internalID: 71096364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DualPew_2
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 480
+        height: 270
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0e73ac2ac8ce4d48b6e3fd885aeb0f1
+      internalID: 694727158
       vertices: []
       indices: 
       edges: []
@@ -162,8 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DualFire_0: 893760802
-      DualFire_1: -389405882
+      DualPew_0: -337702807
+      DualPew_1: 71096364
+      DualPew_2: 694727158
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
