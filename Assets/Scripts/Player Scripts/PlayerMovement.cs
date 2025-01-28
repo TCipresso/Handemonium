@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform playerCam;
     public Transform orientation;
     public Animator animator;
+    public Animator powerUpAnimator;
     public bool isCharging = false;
 
     //Other
@@ -143,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
             // Set the IsMove parameter to true when moving
             animator.SetBool("IsMove", true);
+            powerUpAnimator.SetBool("IsMove", true);
+
 
             // Play walking audio if grounded
             if (grounded)
@@ -157,6 +160,8 @@ public class PlayerMovement : MonoBehaviour
 
             // Set the IsMove parameter to false when not moving
             animator.SetBool("IsMove", false);
+            powerUpAnimator.SetBool("IsMove", false);
+
         }
 
         // Handle jumping logic
