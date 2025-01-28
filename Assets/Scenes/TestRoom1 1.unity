@@ -68749,6 +68749,7 @@ MonoBehaviour:
   damage: 25
   animator: {fileID: 8605710289673270213}
   shootingSound: {fileID: 8300000, guid: 4b2e09541c1c6f74299c02b17dc30d4a, type: 3}
+  reloadSound: {fileID: 8300000, guid: a4013abe7b0fd8444aaae5a14613c394, type: 3}
   audioSource: {fileID: 1430925046}
   hitEffectPrefab: {fileID: 464121085}
 --- !u!114 &8617925809266040446

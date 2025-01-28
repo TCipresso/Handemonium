@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Weapon : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class Weapon : MonoBehaviour
     public float damage = 25f;
     public Animator animator;
     public AudioClip shootingSound;
+    public AudioClip reloadSound; // Optional: Sound for reloading
     public AudioSource audioSource; // AudioSource for playing shooting sounds
     public GameObject hitEffectPrefab;
 
     private float nextTimeToFire = 0f;
+    private int magazineSize = 10; // Size of the magazine
+    private int currentAmmo; // Current ammunition count
+    private bool isReloading = false; // Track reloading state
 
     void Awake()
     {
@@ -27,11 +32,15 @@ public class Weapon : MonoBehaviour
         {
             Destroy(gameObject); // Ensure that there is only one instance
         }
+        currentAmmo = magazineSize; // Initialize ammo count
     }
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (isReloading)
+            return; // Skip update if reloading
+
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && currentAmmo > 0)
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
@@ -40,12 +49,20 @@ public class Weapon : MonoBehaviour
         {
             animator.SetBool("IsShoot", false);
         }
+
+        if (currentAmmo <= 0 && !isReloading)
+        {
+            StartCoroutine(Reload()); // Trigger reload when ammo is out and not already reloading
+        }
     }
 
-    // This method should be called via an Animation Event
     public void FireWeapon()
     {
-        FireHitscan();
+        if (currentAmmo > 0 && !isReloading) // Check if there is ammo and not reloading
+        {
+            FireHitscan();
+            currentAmmo--; // Decrement ammo count
+        }
     }
 
     void FireHitscan()
@@ -76,10 +93,8 @@ public class Weapon : MonoBehaviour
     {
         if (hitEffectPrefab != null)
         {
-            hitEffectPrefab.transform.position = hit.point;
-            hitEffectPrefab.transform.rotation = Quaternion.LookRotation(hit.normal);
-            hitEffectPrefab.SetActive(false);
-            hitEffectPrefab.SetActive(true);
+            GameObject tempEffect = Instantiate(hitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(tempEffect, 2f); // Destroy the effect after 2 seconds
         }
     }
 
@@ -89,5 +104,24 @@ public class Weapon : MonoBehaviour
         {
             audioSource.PlayOneShot(shootingSound);
         }
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        animator.SetTrigger("Reload"); // Trigger reload animation
+        if (reloadSound != null)
+        {
+            audioSource.PlayOneShot(reloadSound); // Play reload sound
+        }
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // Wait for animation to finish
+        currentAmmo = magazineSize;
+        isReloading = false;
+    }
+
+    void Reloading()
+    {
+        currentAmmo = magazineSize;
+        isReloading = false;
     }
 }
