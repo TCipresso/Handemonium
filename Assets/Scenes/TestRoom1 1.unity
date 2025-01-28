@@ -42350,10 +42350,10 @@ GameObject:
   - component: {fileID: 1353216518}
   - component: {fileID: 1353216517}
   - component: {fileID: 1353216515}
-  - component: {fileID: 1353216514}
   - component: {fileID: 1353216519}
+  - component: {fileID: 1353216520}
   m_Layer: 9
-  m_Name: Gun (1)
+  m_Name: Dual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42378,28 +42378,6 @@ RectTransform:
   m_AnchoredPosition: {x: -11, y: -77}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1353216514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353216512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c821d7d9ecc3c2448223fac4e0db8f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootingPoint: {fileID: 5016878312873606051}
-  range: 100
-  lineRenderer: {fileID: 2879685924459095850}
-  fireRate: 500
-  damage: 25
-  animator: {fileID: 0}
-  shootingSound: {fileID: 8300000, guid: 4b2e09541c1c6f74299c02b17dc30d4a, type: 3}
-  reloadSound: {fileID: 8300000, guid: a4013abe7b0fd8444aaae5a14613c394, type: 3}
-  audioSource: {fileID: 1430925046}
-  hitEffectPrefab: {fileID: 464121085}
 --- !u!114 &1353216515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42473,6 +42451,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1353216520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353216512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca29146ce572484593e2d1695a64ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingPoint: {fileID: 5016878312873606051}
+  range: 100
+  lineRenderer: {fileID: 0}
+  fireRate: 10
+  damage: 25
+  animator: {fileID: 1353216519}
+  shootingSound: {fileID: 8300000, guid: 4b2e09541c1c6f74299c02b17dc30d4a, type: 3}
+  audioSource: {fileID: 1430925046}
+  hitEffectPrefab: {fileID: 464121085}
 --- !u!1 &1359313409
 GameObject:
   m_ObjectHideFlags: 0
@@ -43492,7 +43491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1407778837
 RectTransform:
   m_ObjectHideFlags: 0
