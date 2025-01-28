@@ -9,12 +9,15 @@ public class PowerUpManager : MonoBehaviour
     {
         Basic,
         Dual,
-        Power
+        Power,
+        Pull
     }
 
-    public GameObject basicGun; // Assign in Inspector
-    public GameObject dualGun;  // Assign in Inspector
-    public GameObject powerGun; // Assign in Inspector
+    public GameObject basicGun; 
+    public GameObject dualGun;
+    public GameObject powerGun;
+    public GameObject pullGun;
+
 
     private PowerUpState currentState;
 
@@ -43,19 +46,29 @@ public class PowerUpManager : MonoBehaviour
                 basicGun.SetActive(true);
                 dualGun.SetActive(false);
                 powerGun.SetActive(false);
+                pullGun.SetActive(false);
                 break;
             case PowerUpState.Dual:
                 basicGun.SetActive(false);
                 dualGun.SetActive(true);
                 powerGun.SetActive(false);
+                pullGun.SetActive(false);
                 break;
             case PowerUpState.Power:
                 basicGun.SetActive(false);
                 dualGun.SetActive(false);
                 powerGun.SetActive(true);
+                pullGun.SetActive(false);
+                break;
+            case PowerUpState.Pull:
+                basicGun.SetActive(false);
+                dualGun.SetActive(false);
+                powerGun.SetActive(false);
+                pullGun.SetActive(true);
                 break;
         }
     }
+
 
     // Temporary state change methods
     public void Zoom(float newSpeed, float newFireRate, float duration)
@@ -73,6 +86,11 @@ public class PowerUpManager : MonoBehaviour
         StartCoroutine(TemporaryStateChange(PowerUpState.Dual, duration));
     }
 
+    public void ActivatePull(float duration)
+    {
+        StartCoroutine(TemporaryStateChange(PowerUpState.Pull, duration));
+    }
+
     public void Heal(float amount)
     {
         PlayerStats.Instance.HP += amount; // Add the healing amount to the current HP
@@ -80,7 +98,6 @@ public class PowerUpManager : MonoBehaviour
 
         Debug.Log("Player healed by " + amount + ". Current HP: " + PlayerStats.Instance.HP);
     }
-
 
     private IEnumerator ChangeSpeedAndFireRateTemporarily(float newSpeed, float newFireRate, float duration)
     {
@@ -94,7 +111,6 @@ public class PowerUpManager : MonoBehaviour
         PlayerMovement.Instance.maxSpeed = originalSpeed;
         Weapon.Instance.fireRate = originalFireRate;
     }
-
 
     private IEnumerator TemporaryStateChange(PowerUpState newState, float duration)
     {
