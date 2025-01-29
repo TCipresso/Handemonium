@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cinemachine;  // Ensure you have this namespace to access Cinemachine classes
 
 public class Fist : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Fist : MonoBehaviour
     public float damage = 10f;
     public AudioClip meleeSound;
     public AudioSource audioSource;
+    public CinemachineImpulseSource cameraShake;  // Reference to the Cinemachine Impulse Source
 
     private float nextTimeToFire = 0f;
 
@@ -43,6 +45,8 @@ public class Fist : MonoBehaviour
     {
         meleeHitBox.SetActive(true);
         PlayMeleeSound();
+        if (cameraShake != null)
+            cameraShake.GenerateImpulse();  // Generate camera shake impulse when performing melee
     }
 
     public void EndMelee()
@@ -59,5 +63,4 @@ public class Fist : MonoBehaviour
     {
         meleeHitBox.SetActive(false);
     }
-
 }

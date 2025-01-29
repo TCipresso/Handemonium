@@ -14881,14 +14881,14 @@ RectTransform:
   m_GameObject: {fileID: 540591227}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 19.618101, y: 9.336791, z: 6.771675}
+  m_LocalScale: {x: 20.113052, y: 13.121655, z: 6.4723673}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2263014548073803102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: -77}
+  m_AnchoredPosition: {x: -11, y: -177}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &540591229
@@ -36167,8 +36167,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.5, y: 1, z: 0.75418085}
+  m_Center: {x: 0, y: 0, z: -0.0019269021}
 --- !u!23 &1159374850
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36176,7 +36176,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159374846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -43034,7 +43034,7 @@ MonoBehaviour:
   fireRate: 10
   damage: 25
   animator: {fileID: 1353216519}
-  shootingSound: {fileID: 8300000, guid: 4b2e09541c1c6f74299c02b17dc30d4a, type: 3}
+  shootingSound: {fileID: 8300000, guid: ad1f4fb2f5a419746b6eb1ea644b23fa, type: 3}
   audioSource: {fileID: 1430925046}
   hitEffectPrefab: {fileID: 464121085}
 --- !u!1 &1359313409
@@ -44960,7 +44960,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -58756,7 +58756,7 @@ MonoBehaviour:
   enemyPools:
   - enemyPrefab: {fileID: 6928279928057249161, guid: a14ccc0b9acf30446b44b34a4c478b29,
       type: 3}
-    amountToPool: 15
+    amountToPool: 25
     expandPool: 0
     pooledObjects: []
   - enemyPrefab: {fileID: 2624977460278261492, guid: 814e71bede403d442be360cd95a7c6a3,
@@ -58764,8 +58764,8 @@ MonoBehaviour:
     amountToPool: 5
     expandPool: 0
     pooledObjects: []
-  spawnInterval: 5
-  maxActiveEnemies: 4
+  spawnInterval: 3
+  maxActiveEnemies: 30
 --- !u!4 &1755382820
 Transform:
   m_ObjectHideFlags: 0
@@ -58798,6 +58798,7 @@ MonoBehaviour:
   dualGun: {fileID: 1407778836}
   powerGun: {fileID: 2033747242}
   pullGun: {fileID: 540591227}
+  Explosion: {fileID: 628155304}
 --- !u!1 &1759471957
 GameObject:
   m_ObjectHideFlags: 0
@@ -65469,6 +65470,7 @@ GameObject:
   - component: {fileID: 2033747245}
   - component: {fileID: 2033747244}
   - component: {fileID: 2033747248}
+  - component: {fileID: 2033747249}
   m_Layer: 9
   m_Name: Fist
   m_TagString: Untagged
@@ -65585,8 +65587,69 @@ MonoBehaviour:
   meleeHitBox: {fileID: 1159374846}
   fireRate: 1
   damage: 100
-  meleeSound: {fileID: 8300000, guid: a4013abe7b0fd8444aaae5a14613c394, type: 3}
+  meleeSound: {fileID: 8300000, guid: 8ac651be7a4d3ac4cac1022293aa9ac5, type: 3}
   audioSource: {fileID: 1430925046}
+  cameraShake: {fileID: 2033747249}
+--- !u!114 &2033747249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033747242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd438dd108a0f284aa931a2da434f1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 3
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_UseImpactDirection: 0
+  m_ScaleImpactWithMass: 0
+  m_ScaleImpactWithSpeed: 0
 --- !u!1 &2057289216
 GameObject:
   m_ObjectHideFlags: 0
@@ -69231,7 +69294,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4680905027702275070}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -69280,6 +69343,7 @@ GameObject:
   - component: {fileID: 2273665361924009222}
   - component: {fileID: 8226914776417486082}
   - component: {fileID: 2789773198238878567}
+  - component: {fileID: 8812231292322825608}
   m_Layer: 9
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -69751,8 +69815,8 @@ MonoBehaviour:
   fireRate: 500
   damage: 25
   animator: {fileID: 8605710289673270213}
-  shootingSound: {fileID: 8300000, guid: 4b2e09541c1c6f74299c02b17dc30d4a, type: 3}
-  reloadSound: {fileID: 8300000, guid: a4013abe7b0fd8444aaae5a14613c394, type: 3}
+  shootingSound: {fileID: 8300000, guid: 2fb55acbe67785d4d9e2662b461d892e, type: 3}
+  reloadSound: {fileID: 8300000, guid: f6473d0dd75b70349a62866a37650259, type: 3}
   audioSource: {fileID: 1430925046}
   hitEffectPrefab: {fileID: 464121085}
 --- !u!114 &8617925809266040446
@@ -69910,6 +69974,28 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7514181773471216000}
   m_Enabled: 1
+--- !u!114 &8812231292322825608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7514181773471216000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c11265b855408d42af33d62691f5194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseLocalSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!33 &8894691111342461961
 MeshFilter:
   m_ObjectHideFlags: 10

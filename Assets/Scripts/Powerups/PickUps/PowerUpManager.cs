@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PowerUpManager : MonoBehaviour
 {
-    public static PowerUpManager Instance { get; private set; } // Singleton instance
+    public static PowerUpManager Instance { get; private set; }
 
     public enum PowerUpState
     {
@@ -13,30 +13,30 @@ public class PowerUpManager : MonoBehaviour
         Pull
     }
 
-    public GameObject basicGun; 
+    public GameObject basicGun;
     public GameObject dualGun;
     public GameObject powerGun;
     public GameObject pullGun;
-
+    public GameObject Explosion;
 
     private PowerUpState currentState;
+    private Coroutine currentPowerUpCoroutine;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Optionally make the object persistent across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
-            Destroy(gameObject); // Ensure that there is only one instance
+            Destroy(gameObject);
         }
 
         SwitchState(PowerUpState.Basic);
     }
 
-    // Method to switch states
     public void SwitchState(PowerUpState newState)
     {
         currentState = newState;
@@ -47,18 +47,21 @@ public class PowerUpManager : MonoBehaviour
                 dualGun.SetActive(false);
                 powerGun.SetActive(false);
                 pullGun.SetActive(false);
+                Explosion.SetActive(false);
                 break;
             case PowerUpState.Dual:
                 basicGun.SetActive(false);
                 dualGun.SetActive(true);
                 powerGun.SetActive(false);
                 pullGun.SetActive(false);
+                Explosion.SetActive(false);
                 break;
             case PowerUpState.Power:
                 basicGun.SetActive(false);
                 dualGun.SetActive(false);
                 powerGun.SetActive(true);
                 pullGun.SetActive(false);
+                Explosion.SetActive(false);
                 break;
             case PowerUpState.Pull:
                 basicGun.SetActive(false);
@@ -78,17 +81,23 @@ public class PowerUpManager : MonoBehaviour
 
     public void Power(float duration)
     {
-        StartCoroutine(TemporaryStateChange(PowerUpState.Power, duration));
+        if (currentPowerUpCoroutine != null)
+            StopCoroutine(currentPowerUpCoroutine);
+        currentPowerUpCoroutine = StartCoroutine(TemporaryStateChange(PowerUpState.Power, duration));
     }
 
     public void DualWield(float duration)
     {
-        StartCoroutine(TemporaryStateChange(PowerUpState.Dual, duration));
+        if (currentPowerUpCoroutine != null)
+            StopCoroutine(currentPowerUpCoroutine);
+        currentPowerUpCoroutine = StartCoroutine(TemporaryStateChange(PowerUpState.Dual, duration));
     }
 
     public void ActivatePull(float duration)
     {
-        StartCoroutine(TemporaryStateChange(PowerUpState.Pull, duration));
+        if (currentPowerUpCoroutine != null)
+            StopCoroutine(currentPowerUpCoroutine);
+        currentPowerUpCoroutine = StartCoroutine(TemporaryStateChange(PowerUpState.Pull, duration));
     }
 
     public void Heal(float amount)
