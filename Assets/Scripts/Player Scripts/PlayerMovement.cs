@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    public static PlayerMovement Instance { get; private set; }
     //Assingables
     public Transform playerCam;
     public Transform orientation;
@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Rotation and look
     private float xRotation;
-    private float sensitivity = 50f;
+    public float sensitivity = 50f;
     private float sensMultiplier = 1f;
 
     //Movement
@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 wallNormalVector;
 
     //Singleton
-    public static PlayerMovement Instance { get; private set; }
 
     void Awake()
     {
@@ -91,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
     {
         MyInput();
         Look();
+        Debug.Log("Sensitivity: " + sensitivity);
     }
 
     /// <summary>

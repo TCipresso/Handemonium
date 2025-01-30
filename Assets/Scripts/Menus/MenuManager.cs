@@ -6,7 +6,8 @@ public class MenuManager : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject DeathScreen;
     public GameObject OptionsMenu;  
-    public GameObject PMenu;     
+    public GameObject PMenu;
+    public PlayerMovement playerMovement; 
 
     private bool isPaused = false;
 
@@ -24,16 +25,27 @@ public class MenuManager : MonoBehaviour
     public void PauseGame()
     {
         PauseMenu.SetActive(true);
-        Time.timeScale = 0f;  
         isPaused = true;
+        if (playerMovement != null)
+            playerMovement.enabled = false;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
-        Time.timeScale = 1f;  
+        Time.timeScale = 1f;
         isPaused = false;
+        if (playerMovement != null)
+            playerMovement.enabled = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
+
+
 
     public void StartGame()
     {
@@ -62,7 +74,7 @@ public class MenuManager : MonoBehaviour
 
     public void OpenOptions()
     {
-        OptionsMenu.SetActive(true);  
+        OptionsMenu.SetActive(true); 
         PMenu.SetActive(false);      
     }
 
