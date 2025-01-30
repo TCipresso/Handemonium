@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
     public void PauseGame()
     {
         PauseMenu.SetActive(true);
+        Time.timeScale = 0f;
         isPaused = true;
         if (playerMovement != null)
             playerMovement.enabled = false;
@@ -36,6 +37,7 @@ public class MenuManager : MonoBehaviour
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
         if (playerMovement != null)

@@ -25,12 +25,12 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20); // Convert slider value to dB
+        audioMixer.SetFloat("MyExposedParam", Mathf.Log10(volume) * 20); // Convert slider value to dB
     }
 
     public void SetSFXVolume(float volume)
     {
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("MyExposedParam 2", Mathf.Log10(volume) * 20);
     }
 
     public void SetAmbienceVolume(float volume)
@@ -40,6 +40,6 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("MyExposedParam 1", Mathf.Log10(volume) * 20);
     }
 }
