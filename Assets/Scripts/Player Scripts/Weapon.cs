@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class Weapon : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Weapon : MonoBehaviour
     private int magazineSize = 10; // Size of the magazine
     private int currentAmmo; // Current ammunition count
     private bool isReloading = false; // Track reloading state
+    public TextMeshProUGUI ammoText;
 
     void Awake()
     {
@@ -44,6 +46,7 @@ public class Weapon : MonoBehaviour
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             animator.SetBool("IsShoot", true); // Set IsShoot to true when firing
+            UpdateAmmoText();
         }
         else
         {
@@ -52,7 +55,8 @@ public class Weapon : MonoBehaviour
 
         if (currentAmmo <= 0 && !isReloading)
         {
-            StartCoroutine(Reload()); // Trigger reload when ammo is out and not already reloading
+            StartCoroutine(Reload());
+            UpdateAmmoText();// Trigger reload when ammo is out and not already reloading
         }
     }
 
@@ -124,5 +128,11 @@ public class Weapon : MonoBehaviour
     {
         currentAmmo = magazineSize;
         isReloading = false;
+    }
+
+    void UpdateAmmoText()
+    {
+        if (ammoText != null)
+            ammoText.text = $"{currentAmmo}";
     }
 }
