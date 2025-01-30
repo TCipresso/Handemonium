@@ -1,32 +1,36 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; 
+
 
 public class Charge : MonoBehaviour
 {
-    public static Charge Instance { get; private set; }  // Singleton instance
+    public static Charge Instance { get; private set; }  
 
-    public Rigidbody rb;                  // Reference to the player's Rigidbody
-    public Transform orientation;         // Reference to the player's orientation
-    public float dashSpeed = 10f;         // How fast the dash moves
-    public float dashDistance = 10f;      // How far the dash goes
-    public float dashCooldown = 1.5f;     // Cooldown duration between dashes
-    public LayerMask obstacleLayers;      // Layers that represent obstacles
+    public Rigidbody rb;                  
+    public Transform orientation;       
+    public float dashSpeed = 10f;        
+    public float dashDistance = 10f;     
+    public float dashCooldown = 1.5f;     
+    public LayerMask obstacleLayers;
+    public Image cooldownImage;  
 
-    private bool isDashing;               // To check if currently dashing
-    private bool canDash = true;          // To check if dash is available
-    private Vector3 dashDirection;        // Direction of the dash
-    private float dashTime;               // Time it takes to complete the dash
+
+    private bool isDashing;              
+    private bool canDash = true;         
+    private Vector3 dashDirection;      
+    private float dashTime;             
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);  // Optionally make the object persistent across scenes
+            DontDestroyOnLoad(gameObject); 
         }
         else if (Instance != this)
         {
-            Destroy(gameObject);  // Ensure that there is only one instance
+            Destroy(gameObject);  
         }
 
         dashCooldown = 1.5f;
@@ -48,14 +52,14 @@ public class Charge : MonoBehaviour
         dashDirection = orientation.forward * Input.GetAxisRaw("Vertical") + orientation.right * Input.GetAxisRaw("Horizontal");
         if (dashDirection != Vector3.zero)
         {
-            dashDirection.Normalize(); // Normalize to ensure consistent dash direction
+            dashDirection.Normalize(); 
         }
         else
         {
-            dashDirection = orientation.forward; // Default to forward if no input
+            dashDirection = orientation.forward; 
         }
 
-        dashTime = dashDistance / dashSpeed; // Calculate how long the dash should take based on distance and speed
+        dashTime = dashDistance / dashSpeed;
         float actualDashDistance = CalculateDashDistance(startPosition, dashDirection, dashDistance);
         StartCoroutine(PerformDash(startPosition, dashDirection, actualDashDistance));
     }
@@ -65,9 +69,9 @@ public class Charge : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(startPosition, direction, out hit, maxDistance, obstacleLayers))
         {
-            return hit.distance - 0.01f; // Stop slightly before hitting the object
+            return hit.distance - 0.01f; 
         }
-        return maxDistance; // No obstacle, return the full dash distance
+        return maxDistance; 
     }
 
     private IEnumerator PerformDash(Vector3 startPosition, Vector3 direction, float distance)
@@ -107,7 +111,18 @@ public class Charge : MonoBehaviour
 
     private IEnumerator DashCooldown()
     {
-        yield return new WaitForSeconds(dashCooldown);
+        float cooldownTimer = 0;
+
+        while (cooldownTimer < dashCooldown)
+        {
+            cooldownTimer += Time.deltaTime;
+            // This will start at 0 and fill up to 1 as the cooldown expires
+            cooldownImage.fillAmount = cooldownTimer / dashCooldown;
+            yield return null;
+        }
+
+        cooldownImage.fillAmount = 1;  // Ensure it's fully filled at the end
         canDash = true;
     }
+
 }

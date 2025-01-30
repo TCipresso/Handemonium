@@ -5,11 +5,15 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats Instance { get; private set; } // Singleton instance
 
     // Public stats
-    public float HP = 100f; // Initialize HP with a default value, now directly accessible
-    public float moveSpeed; // To reflect PlayerMovement's move speed
-    public float dashCooldown; // To reflect Charge's dash cooldown
+    public float HP = 100f; 
+    public float moveSpeed;
+    public float dashCooldown; 
     public float Def_MoveSpeed;
     public float Def_DashCD;
+    public GameObject DeathScreen;
+    public float damageAmount = 20f;
+
+
 
 
 
@@ -18,11 +22,11 @@ public class PlayerStats : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Optionally make the object persistent across scenes
+            DontDestroyOnLoad(gameObject); 
         }
         else if (Instance != this)
         {
-            Destroy(gameObject); // Ensure that there is only one instance
+            Destroy(gameObject); 
         }
 
         // Initialize from other scripts
@@ -33,20 +37,51 @@ public class PlayerStats : MonoBehaviour
     public void PlayerDie()
     {
         Debug.Log("Player has died.");
-        // Additional actions on death, like animations or game over logic
+
+        // Disable the PlayerMovement script
+        if (PlayerMovement.Instance != null)
+        {
+            PlayerMovement.Instance.enabled = false;
+            Debug.Log("Player movement disabled.");
+        }
+
+        // Dynamically find and disable the Hands GameObject
+        GameObject hands = GameObject.Find("HandsUI");
+        if (hands != null)
+        {
+            hands.SetActive(false);
+            Debug.Log("Hands GameObject has been disabled.");
+        }
+        else
+        {
+            Debug.LogError("Hands GameObject not found. Check the name is correct.");
+        }
+
+        // Activate the death screen
+        if (DeathScreen != null)
+        {
+            DeathScreen.SetActive(true);
+            Debug.Log("Death screen activated.");
+        }
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
+
+
+
 
     public void IncMoveSpeed(float amount)
     {
         moveSpeed += amount;
-        PlayerMovement.Instance.moveSpeed = moveSpeed; // Ensure the player movement speed is updated
+        PlayerMovement.Instance.moveSpeed = moveSpeed; 
         Debug.Log("Increased move speed: " + moveSpeed);
     }
 
     public void DecDashCooldown(float amount)
     {
         dashCooldown = Mathf.Max(0, dashCooldown - amount);
-        Charge.Instance.dashCooldown = dashCooldown; // Update the actual dash cooldown in Charge
+        Charge.Instance.dashCooldown = dashCooldown; 
         Debug.Log("Decreased dash cooldown: " + dashCooldown);
     }
 
@@ -62,7 +97,6 @@ public class PlayerStats : MonoBehaviour
 
     public void ResetStats()
     {
-        // Reset move speed and dash cooldown to initial values
         PlayerMovement.Instance.moveSpeed = Def_MoveSpeed;
         Charge.Instance.dashCooldown = Def_DashCD;
         Debug.Log("Stats reset to defaults, except HP.");

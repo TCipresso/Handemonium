@@ -7,6 +7,8 @@ public class Bomber : Enemy
     private NavMeshAgent agent;
     public Transform target; // Target usually will be the player
     public GameObject explosionPrefab; // Assign an explosion prefab here
+    public float damageAmount = 20f;  // Damage dealt to the playerS
+
 
     void Start()
     {
@@ -38,11 +40,14 @@ public class Bomber : Enemy
         // Check for collision with the player
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Optional: Instantiate explosion effect here
-            // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Debug.Log("Instantiate explosion here");
+            if (explosionPrefab != null)
+                Instantiate(explosionPrefab, transform.position, Quaternion.identity);
 
-            // Destroy the Bomber
+            Debug.Log("Explosion instantiated and damage dealt");
+            if (PlayerStats.Instance != null)
+            {
+                PlayerStats.Instance.TakeDamage(damageAmount);
+            }
             Destroy(gameObject);
         }
     }

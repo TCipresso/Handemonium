@@ -6,6 +6,8 @@ public abstract class Enemy : MonoBehaviour
     public float attackPower;
     public float speed;
     public GameObject hitEffectPrefab;
+    public GameObject hands; // Reference to the Hands GameObject
+
 
     public virtual void TakeDamage(float amount)
     {
