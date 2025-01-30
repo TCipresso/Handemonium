@@ -7,7 +7,8 @@ public class MenuManager : MonoBehaviour
     public GameObject DeathScreen;
     public GameObject OptionsMenu;  
     public GameObject PMenu;
-    public PlayerMovement playerMovement; 
+    public PlayerMovement playerMovement;
+    public GameObject hands;
 
     private bool isPaused = false;
 
@@ -56,9 +57,31 @@ public class MenuManager : MonoBehaviour
 
     public void RestartGame()
     {
-        // Get the current active scene and reload it
+        // Reactivate the player's hands GameObject
+        if (hands != null)
+        {
+            hands.SetActive(true);
+            Debug.Log("Hands GameObject has been reactivated.");
+        }
+
+        // Re-enable the PlayerMovement script
+        if (PlayerMovement.Instance != null)
+        {
+            PlayerMovement.Instance.enabled = true;
+            Debug.Log("Player movement has been re-enabled.");
+        }
+
+        PowerUpManager.Instance.SwitchState(PowerUpManager.PowerUpState.Basic);
+
+        // Reset the mouse cursor for gameplay
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log("Cursor has been hidden and locked.");
+
+        // Reload the current scene
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
+        Debug.Log("Game has been restarted.");
     }
 
 

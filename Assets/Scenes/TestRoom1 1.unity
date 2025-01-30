@@ -63126,6 +63126,7 @@ MonoBehaviour:
   OptionsMenu: {fileID: 1793589076}
   PMenu: {fileID: 1300933635}
   playerMovement: {fileID: 6066068938619965889}
+  hands: {fileID: 3596463808784742262}
 --- !u!114 &1755382823
 MonoBehaviour:
   m_ObjectHideFlags: 0
