@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2258641786402528717}
   - component: {fileID: 4246097093782304702}
   - component: {fileID: 128070267936392442}
+  - component: {fileID: -3531100238215319105}
   m_Layer: 10
   m_Name: Dummy
   m_TagString: Enemy
@@ -137,3 +138,16 @@ MonoBehaviour:
   attackPower: 0
   speed: 0
   hitEffectPrefab: {fileID: 0}
+  hands: {fileID: 0}
+--- !u!114 &-3531100238215319105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7713363266703721795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e291833b955a64c9ba9553a91fe39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

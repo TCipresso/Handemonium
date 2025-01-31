@@ -14,6 +14,7 @@ public class OptionsMenu : MonoBehaviour
     void Start()
     {
         // Initialize sliders (optional step if you want to set defaults or load saved settings)
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SetSensitivity(float sensitivity)

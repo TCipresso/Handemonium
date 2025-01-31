@@ -16,6 +16,7 @@ public class SpawnerManager : MonoBehaviour
     public List<Transform> spawnerList = new List<Transform>(); // List of spawn points
     public List<EnemyPoolItem> enemyPools = new List<EnemyPoolItem>(); // List of enemy pools
     public float spawnInterval = 5f; // Time interval between spawns
+    public GameObject enemyPoolContainer; // Container for all enemies
 
     private float nextTimeToSpawn;
     private List<GameObject> activeEnemies = new List<GameObject>();
@@ -23,6 +24,12 @@ public class SpawnerManager : MonoBehaviour
 
     void Start()
     {
+        // Ensure there is a container for enemies
+        if (enemyPoolContainer == null)
+        {
+            enemyPoolContainer = new GameObject("EnemyPool");
+        }
+
         InitializePools();
         nextTimeToSpawn = Time.time + spawnInterval;
     }
@@ -36,21 +43,21 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
-    void InitializePools()
+    public void InitializePools()
     {
         foreach (var pool in enemyPools)
         {
             pool.pooledObjects = new List<GameObject>();
             for (int i = 0; i < pool.amountToPool; i++)
             {
-                GameObject obj = Instantiate(pool.enemyPrefab);
+                GameObject obj = Instantiate(pool.enemyPrefab, enemyPoolContainer.transform);
                 obj.SetActive(false);
                 pool.pooledObjects.Add(obj);
             }
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
         if (spawnerList.Count == 0 || enemyPools.Count == 0)
         {
@@ -58,10 +65,7 @@ public class SpawnerManager : MonoBehaviour
             return;
         }
 
-        // Select a random spawn point
         Transform spawnPoint = spawnerList[Random.Range(0, spawnerList.Count)];
-
-        // Get a random enemy from the pool
         EnemyPoolItem selectedPool = enemyPools[Random.Range(0, enemyPools.Count)];
         GameObject enemyToSpawn = GetPooledObject(selectedPool);
 
@@ -86,7 +90,7 @@ public class SpawnerManager : MonoBehaviour
 
         if (pool.expandPool)
         {
-            GameObject obj = Instantiate(pool.enemyPrefab);
+            GameObject obj = Instantiate(pool.enemyPrefab, enemyPoolContainer.transform);
             obj.SetActive(false);
             pool.pooledObjects.Add(obj);
             return obj;

@@ -221,6 +221,7 @@ MonoBehaviour:
   speed: 30
   hitEffectPrefab: {fileID: 1671992485354019984, guid: 2181cc7ccbe5da440bf1e57c196618f0,
     type: 3}
+  hands: {fileID: 0}
   target: {fileID: 0}
   explosionPrefab: {fileID: 1553332707245981396, guid: 0fac132de286b9d44a4dff0ae6af9f76,
     type: 3}

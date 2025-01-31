@@ -140,6 +140,7 @@ MonoBehaviour:
   attackPower: 2
   speed: 3.5
   hitEffectPrefab: {fileID: 0}
+  hands: {fileID: 0}
   target: {fileID: 0}
   shootingRange: 30
   projectilePrefab: {fileID: 2106159488461948229, guid: 9ce4b2d4c8a4a464fa70c130ed600733,

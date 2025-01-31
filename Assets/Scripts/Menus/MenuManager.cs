@@ -9,8 +9,17 @@ public class MenuManager : MonoBehaviour
     public GameObject PMenu;
     public PlayerMovement playerMovement;
     public GameObject hands;
+    public GameObject player; 
+    public Transform spawnPoint;
+    public SpawnerManager spawnerManager;
+
 
     private bool isPaused = false;
+
+    /*void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }*/
 
     void Update()
     {
@@ -72,6 +81,8 @@ public class MenuManager : MonoBehaviour
         }
 
         PowerUpManager.Instance.SwitchState(PowerUpManager.PowerUpState.Basic);
+        player.transform.position = spawnPoint.position;
+        player.transform.rotation = spawnPoint.rotation;
 
         // Reset the mouse cursor for gameplay
         Cursor.visible = false;
@@ -82,6 +93,8 @@ public class MenuManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.buildIndex);
         Debug.Log("Game has been restarted.");
+        spawnerManager.InitializePools();
+        //spawnerManager.ForceSpawn();
     }
 
 
