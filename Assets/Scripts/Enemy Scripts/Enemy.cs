@@ -7,14 +7,14 @@ public abstract class Enemy : MonoBehaviour
     public float speed;
     public GameObject hitEffectPrefab;
     public GameObject hands; // Reference to the Hands GameObject
-
+    public GameObject[] powerUps; // Array to hold different power-up prefabs
+    public float dropChance = 0.25f; // Chance to drop a power-up (25%)
 
     public virtual void TakeDamage(float amount)
     {
         TakeDamage(amount, transform.position); // Use enemy position as default hit point
     }
 
-    // Overloaded TakeDamage with hit point
     public virtual void TakeDamage(float amount, Vector3 hitPoint)
     {
         health -= amount;
@@ -34,6 +34,16 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log("Enemy died.");
-        Destroy(gameObject);
+        DropPowerUp(); // Try to drop a power-up
+        gameObject.SetActive(false); // Deactivate the enemy instead of destroying it
+    }
+
+    private void DropPowerUp()
+    {
+        if (powerUps.Length > 0 && Random.value < dropChance)
+        {
+            int index = Random.Range(0, powerUps.Length);
+            Instantiate(powerUps[index], transform.position, Quaternion.identity);
+        }
     }
 }

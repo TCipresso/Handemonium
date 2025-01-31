@@ -79,9 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224,
-    type: 3}
-  m_Color: {r: 0, g: 1, b: 0.11449838, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 50873b3d3195a2249aa5b82072b09f58, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -122,8 +121,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.99999994, y: 0.99999994, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.9999998, y: 1.4373871, z: 0.19999999}
+  m_Center: {x: 0, y: -0.21869491, z: 0}
 --- !u!114 &3357356399422300828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,10 +138,18 @@ MonoBehaviour:
   health: 100
   attackPower: 2
   speed: 3.5
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 1671992485354019984, guid: 2181cc7ccbe5da440bf1e57c196618f0,
+    type: 3}
   hands: {fileID: 0}
+  powerUps:
+  - {fileID: 1153589946065956511, guid: afa858091db31fb45a5d1bb6a2823668, type: 3}
+  - {fileID: 690860584668798502, guid: 10a973f6a7f1daa48a4ff7843224423e, type: 3}
+  - {fileID: 1808698384399156124, guid: 1591290330c903d45a2b3271a5bb388a, type: 3}
+  - {fileID: 6608051045139984482, guid: 7acb6d598aa9f9b4aa08966bdfcfa708, type: 3}
+  - {fileID: 282519266675286705, guid: 488c5edb493fdff43b11f2ab676f1b8c, type: 3}
+  dropChance: 0.25
   target: {fileID: 0}
-  shootingRange: 30
+  shootingRange: 70
   projectilePrefab: {fileID: 2106159488461948229, guid: 9ce4b2d4c8a4a464fa70c130ed600733,
     type: 3}
   shootingPoint: {fileID: 4316335353280114598}
@@ -165,8 +172,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.99999994
-  m_BaseOffset: 0.49999997
+  m_Height: 1.4
+  m_BaseOffset: 0.95
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!54 &4800189913264999942

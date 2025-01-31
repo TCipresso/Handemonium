@@ -16,10 +16,12 @@ public class MenuManager : MonoBehaviour
 
     private bool isPaused = false;
 
-    /*void Awake()
+    void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-    }*/
+        PauseMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+        DeathScreen.SetActive(false);
+    }
 
     void Update()
     {
@@ -83,6 +85,7 @@ public class MenuManager : MonoBehaviour
         PowerUpManager.Instance.SwitchState(PowerUpManager.PowerUpState.Basic);
         player.transform.position = spawnPoint.position;
         player.transform.rotation = spawnPoint.rotation;
+       
 
         // Reset the mouse cursor for gameplay
         Cursor.visible = false;
@@ -94,6 +97,10 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(currentScene.buildIndex);
         Debug.Log("Game has been restarted.");
         spawnerManager.InitializePools();
+        PlayerStats.Instance.HP = 100f;
+        PauseMenu.SetActive(false);
+        OptionsMenu.SetActive(false);
+        DeathScreen.SetActive(false);
         //spawnerManager.ForceSpawn();
     }
 

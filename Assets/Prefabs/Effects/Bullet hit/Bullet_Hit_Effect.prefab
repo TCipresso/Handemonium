@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8489340817731796270}
   - component: {fileID: 3146635707482512314}
   - component: {fileID: 7690346919322681459}
+  - component: {fileID: 4633043832844864812}
   m_Layer: 0
   m_Name: Bullet_Hit_Effect
   m_TagString: Untagged
@@ -4888,3 +4889,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4633043832844864812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078922319347996376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e153b584a86ab343b41ff0cb30fb17d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 3
